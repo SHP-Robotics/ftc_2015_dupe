@@ -57,14 +57,12 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     manager.register("NullOp", NullOp.class);
 
-<<<<<<< HEAD
+
     manager.register("TankOp", TankOp.class);
 
     manager.register("LegacyTestOp", LegacyTestOp.class);
-=======
-    manager.register("K9TeleOp", K9TeleOp.class);
-    manager.register ("PushBotAuto", PushBotAuto.class);
-    manager.register ("PushBotManual", PushBotManual.class);
+
+
 
     /*
      * Uncomment any of the following lines if you want to register an op mode.
@@ -84,7 +82,6 @@ public class FtcOpModeRegister implements OpModeRegister {
     
     //manager.register("LinearK9TeleOp", LinearK9TeleOp.class);
     //manager.register("LinearIrExample", LinearIrExample.class);
->>>>>>> ftctechnh/master
 
     
     //manager.register ("PushBotManual1", PushBotManual1.class);
