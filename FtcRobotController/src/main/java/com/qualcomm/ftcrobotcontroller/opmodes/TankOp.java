@@ -104,7 +104,7 @@ public class TankOp extends OpMode {
         // write the values to the motors
         motorRight.setPower(right);
         motorLeft.setPower(left);
-        motorBoost.setPower(-throttle);
+        motorBoost.setPower(gamepad1.right_stick_y);
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
