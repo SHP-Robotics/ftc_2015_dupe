@@ -47,7 +47,12 @@ public class TankOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor motorBoost;
+    DcMotor leftArm, rightArm;
+
+    Servo leftArmHook, rightArmHook;
+
+    float leftServoPos = 0;
+    float rightServoPos = 0;
 
 
     /**
@@ -74,7 +79,11 @@ public class TankOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("motor_2");
         motorLeft = hardwareMap.dcMotor.get("motor_1");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBoost = hardwareMap.dcMotor.get("motor_3");
+        leftArm = hardwareMap.dcMotor.get("motor_3");
+        rightArm = hardwareMap.dcMotor.get("motor_4");
+
+        leftArmHook = hardwareMap.servo.get("servo_1");
+        rightArmHook = hardwareMap.servo.get("servo_2");
 
     }
 
@@ -92,6 +101,20 @@ public class TankOp extends OpMode {
         float right = throttle - direction;
         float left = throttle + direction;
 
+
+
+        if (gamepad2.right_bumper) {
+            rightServoPos--;
+        } else {
+            rightServoPos += gamepad2.right_trigger;
+        }
+
+        if (gamepad2.left_bumper) {
+            leftServoPos--;
+        } else {
+            leftServoPos += gamepad2.left_trigger;
+        }
+
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
         left = Range.clip(left, -1, 1);
@@ -104,12 +127,19 @@ public class TankOp extends OpMode {
         // write the values to the motors
         motorRight.setPower(right);
         motorLeft.setPower(left);
-        motorBoost.setPower(gamepad1.right_stick_y);
+
+        leftArm.setPower(gamepad2.left_stick_y);
+        rightArm.setPower(gamepad2.right_stick_y);
+
+        leftArmHook.setPosition(leftServoPos);
+        rightArmHook.setPosition(rightServoPos);
+>>>>>>> origin/master
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
-
+        telemetry.addData("left arm servo", leftServoPos);
+        telemetry.addData("right arm servo", rightServoPos);
     }
 
     /*
