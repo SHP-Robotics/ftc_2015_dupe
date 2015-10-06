@@ -133,7 +133,6 @@ public class TankOp extends OpMode {
 
         leftArmHook.setPosition(leftServoPos);
         rightArmHook.setPosition(rightServoPos);
->>>>>>> origin/master
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
