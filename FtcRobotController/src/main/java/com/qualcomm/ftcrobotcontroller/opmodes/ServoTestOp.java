@@ -76,6 +76,12 @@ public class ServoTestOp extends OpMode {
         leftArmHook = hardwareMap.servo.get("servo_1");
         rightArmHook = hardwareMap.servo.get("servo_2");
 
+        leftArmHook.setDirection(Servo.Direction.FORWARD);
+        rightArmHook.setDirection(Servo.Direction.REVERSE);
+
+        leftArmHook.scaleRange(0,1);
+        rightArmHook.scaleRange(0,1);
+
     }
 
     /*
@@ -87,33 +93,22 @@ public class ServoTestOp extends OpMode {
     public void loop() {
 
 
-        if (gamepad2.right_bumper && rightServoPos > -0.95) {
+        if (gamepad2.right_bumper && rightServoPos > 0.05) {
             rightServoPos -= 0.05;
         } else if (rightServoPos < 0.95) {
             rightServoPos += gamepad2.right_trigger/20;
         }
 
-        if (gamepad2.left_bumper && leftServoPos > -0.95) {
+        if (gamepad2.left_bumper && leftServoPos > 0.05) {
             leftServoPos -= 0.05;
         } else if (leftServoPos < 0.95) {
             leftServoPos += gamepad2.left_trigger/20;
         }
 
-        if (leftServoPos <= 0) {
-            leftArmHook.setDirection(Servo.Direction.REVERSE);
-            leftArmHook.setPosition(-1 * leftServoPos);
-        } else {
-            leftArmHook.setDirection(Servo.Direction.FORWARD);
-            leftArmHook.setPosition(leftServoPos);
-        }
+        leftArmHook.setPosition(leftServoPos);
 
-        if (rightServoPos <= 0) {
-            rightArmHook.setDirection(Servo.Direction.REVERSE);
-            rightArmHook.setPosition(-1 * rightServoPos);
-        } else {
-            rightArmHook.setDirection(Servo.Direction.FORWARD);
-            rightArmHook.setPosition(rightServoPos);
-        }
+        rightArmHook.setPosition(rightServoPos);
+
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left arm servo", leftServoPos);
