@@ -85,6 +85,12 @@ public class TankOp extends OpMode {
         leftArmHook = hardwareMap.servo.get("servo_1");
         rightArmHook = hardwareMap.servo.get("servo_2");
 
+        leftArmHook.setDirection(Servo.Direction.FORWARD);
+        rightArmHook.setDirection(Servo.Direction.REVERSE);
+
+        leftArmHook.scaleRange(0,1);
+        rightArmHook.scaleRange(0,1);
+
     }
 
     /*
@@ -103,17 +109,18 @@ public class TankOp extends OpMode {
 
 
 
-        if (gamepad2.right_bumper) {
-            rightServoPos--;
-        } else {
-            rightServoPos += gamepad2.right_trigger;
+        if (gamepad2.right_bumper && rightServoPos > 0.05) {
+            rightServoPos -= 0.05;
+        } else if (rightServoPos < 0.95) {
+            rightServoPos += gamepad2.right_trigger/20;
         }
 
-        if (gamepad2.left_bumper) {
-            leftServoPos--;
-        } else {
-            leftServoPos += gamepad2.left_trigger;
+        if (gamepad2.left_bumper && leftServoPos > 0.05) {
+            leftServoPos -= 0.05;
+        } else if (leftServoPos < 0.95) {
+            leftServoPos += gamepad2.left_trigger/20;
         }
+
 
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
