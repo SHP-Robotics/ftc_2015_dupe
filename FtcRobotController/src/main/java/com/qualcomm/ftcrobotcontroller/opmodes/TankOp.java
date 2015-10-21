@@ -34,6 +34,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -50,6 +51,8 @@ public class TankOp extends OpMode {
     DcMotor leftArm, rightArm;
 
     Servo leftArmHook, rightArmHook;
+
+    TouchSensor fLeft, fRight, bLeft, bRight;
 
     float leftServoPos = 0;
     float rightServoPos = 0;
@@ -85,6 +88,11 @@ public class TankOp extends OpMode {
 
         leftArmHook = hardwareMap.servo.get("servo_1");
         rightArmHook = hardwareMap.servo.get("servo_2");
+
+        fLeft = hardwareMap.touchSensor.get("touch_1");
+        fRight = hardwareMap.touchSensor.get("touch_2");
+        bLeft = hardwareMap.touchSensor.get("touch_3");
+        bRight = hardwareMap.touchSensor.get("touch_4");
 
 
         leftArmHook.setDirection(Servo.Direction.FORWARD);
@@ -137,14 +145,40 @@ public class TankOp extends OpMode {
         motorRight.setPower(right);
         motorLeft.setPower(left);
 
-        leftArm.setPower(gamepad2.left_stick_y);
-        rightArm.setPower(gamepad2.right_stick_y);
+
+        if (fLeft.getValue() == 1) {
+            if (gamepad2.left_stick_y < 0){
+            } else {
+                leftArm.setPower(gamepad2.left_stick_y);
+            }
+        } else if (bLeft.getValue() == 1) {
+            if (gamepad2.left_stick_y > 0){
+            } else {
+                leftArm.setPower(gamepad2.left_stick_y);
+            }
+        } else {
+            leftArm.setPower(gamepad2.left_stick_y);
+        }
+
+        if (fRight.getValue() == 1) {
+            if (gamepad2.right_stick_y < 0){
+            } else {
+                rightArm.setPower(gamepad2.right_stick_y);
+            }
+        } else if (bRight.getValue() == 1) {
+            if (gamepad2.right_stick_y > 0){
+            } else {
+                rightArm.setPower(gamepad2.right_stick_y);
+            }
+        } else {
+            rightArm.setPower(gamepad2.right_stick_y);
+        }
 
         leftArmHook.setPosition(leftServoPos);
         rightArmHook.setPosition(rightServoPos);
 
         telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
+        telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
         telemetry.addData("left arm servo", leftServoPos);
         telemetry.addData("right arm servo", rightServoPos);
