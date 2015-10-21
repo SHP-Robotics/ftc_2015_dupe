@@ -41,24 +41,19 @@ import com.qualcomm.robotcore.util.Range;
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class TankOp extends OpMode {
+public class DriveOp extends OpMode {
 
 
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor leftArm, rightArm;
 
-    Servo leftArmHook, rightArmHook;
-
-    float leftServoPos = 0;
-    float rightServoPos = 0;
 
 
     /**
      * Constructor
      */
-    public TankOp() {
+    public DriveOp() {
 
     }
 
@@ -79,19 +74,7 @@ public class TankOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("motor_2");
         motorLeft = hardwareMap.dcMotor.get("motor_1");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        leftArm = hardwareMap.dcMotor.get("motor_3");
-        rightArm = hardwareMap.dcMotor.get("motor_4");
-        rightArm.setDirection(DcMotor.Direction.REVERSE);
 
-        leftArmHook = hardwareMap.servo.get("servo_1");
-        rightArmHook = hardwareMap.servo.get("servo_2");
-
-
-        leftArmHook.setDirection(Servo.Direction.FORWARD);
-        rightArmHook.setDirection(Servo.Direction.REVERSE);
-
-        leftArmHook.scaleRange(0,1);
-        rightArmHook.scaleRange(0,1);
 
     }
 
@@ -111,18 +94,6 @@ public class TankOp extends OpMode {
 
 
 
-        if (gamepad2.right_bumper && rightServoPos > 0.05) {
-            rightServoPos -= 0.05;
-        } else if (rightServoPos < 0.95) {
-            rightServoPos += gamepad2.right_trigger/20;
-        }
-
-        if (gamepad2.left_bumper && leftServoPos > 0.05) {
-            leftServoPos -= 0.05;
-        } else if (leftServoPos < 0.95) {
-            leftServoPos += gamepad2.left_trigger/20;
-        }
-
 
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
@@ -137,17 +108,12 @@ public class TankOp extends OpMode {
         motorRight.setPower(right);
         motorLeft.setPower(left);
 
-        leftArm.setPower(gamepad2.left_stick_y);
-        rightArm.setPower(gamepad2.right_stick_y);
 
-        leftArmHook.setPosition(leftServoPos);
-        rightArmHook.setPosition(rightServoPos);
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr",  "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
-        telemetry.addData("left arm servo", leftServoPos);
-        telemetry.addData("right arm servo", rightServoPos);
+
     }
 
     /*
