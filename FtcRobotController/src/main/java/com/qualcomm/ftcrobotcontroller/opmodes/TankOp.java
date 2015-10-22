@@ -146,13 +146,15 @@ public class TankOp extends OpMode {
         motorLeft.setPower(left);
 
 
-        if (fLeft.getValue() == 1) {
+        if (fLeft.isPressed()) {
             if (gamepad2.left_stick_y < 0){
+                leftArm.setPower(0);
             } else {
                 leftArm.setPower(gamepad2.left_stick_y);
             }
-        } else if (bLeft.getValue() == 1) {
+        } else if (bLeft.isPressed()) {
             if (gamepad2.left_stick_y > 0){
+                leftArm.setPower(0);
             } else {
                 leftArm.setPower(gamepad2.left_stick_y);
             }
@@ -160,13 +162,15 @@ public class TankOp extends OpMode {
             leftArm.setPower(gamepad2.left_stick_y);
         }
 
-        if (fRight.getValue() == 1) {
+        if (fRight.isPressed()) {
             if (gamepad2.right_stick_y < 0){
+                rightArm.setPower(0);
             } else {
                 rightArm.setPower(gamepad2.right_stick_y);
             }
-        } else if (bRight.getValue() == 1) {
+        } else if (bRight.isPressed()) {
             if (gamepad2.right_stick_y > 0){
+                rightArm.setPower(0);
             } else {
                 rightArm.setPower(gamepad2.right_stick_y);
             }
@@ -182,6 +186,7 @@ public class TankOp extends OpMode {
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
         telemetry.addData("left arm servo", leftServoPos);
         telemetry.addData("right arm servo", rightServoPos);
+        telemetry.addData("bLeft", bLeft.isPressed());
     }
 
     /*
