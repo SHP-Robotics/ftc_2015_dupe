@@ -48,7 +48,7 @@ public class TankOp extends OpMode {
 
     DcMotor motorRight;
     DcMotor motorLeft;
-    DcMotor leftArm, rightArm;
+    DcMotor leftBack, rightBack;
 
     Servo leftArmHook, rightArmHook;
 
@@ -82,11 +82,11 @@ public class TankOp extends OpMode {
         motorRight = hardwareMap.dcMotor.get("motor_2");
         motorLeft = hardwareMap.dcMotor.get("motor_1");
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
-        leftArm = hardwareMap.dcMotor.get("motor_3");
-        rightArm = hardwareMap.dcMotor.get("motor_4");
-        rightArm.setDirection(DcMotor.Direction.REVERSE);
+        leftBack = hardwareMap.dcMotor.get("motor_3");
+        rightBack = hardwareMap.dcMotor.get("motor_4");
+        rightBack.setDirection(DcMotor.Direction.REVERSE);
 
-        leftArmHook = hardwareMap.servo.get("servo_1");
+        /*leftArmHook = hardwareMap.servo.get("servo_1");
         rightArmHook = hardwareMap.servo.get("servo_2");
 
         fLeft = hardwareMap.touchSensor.get("touch_1");
@@ -99,7 +99,7 @@ public class TankOp extends OpMode {
         rightArmHook.setDirection(Servo.Direction.REVERSE);
 
         leftArmHook.scaleRange(0,1);
-        rightArmHook.scaleRange(0,1);
+        rightArmHook.scaleRange(0,1);*/
 
     }
 
@@ -144,9 +144,11 @@ public class TankOp extends OpMode {
         // write the values to the motors
         motorRight.setPower(right);
         motorLeft.setPower(left);
+        rightBack.setPower(right);
+        leftBack.setPower(left);
 
 
-        if (fLeft.isPressed()) {
+        /*if (fLeft.isPressed()) {
             if (gamepad2.left_stick_y < 0){
                 leftArm.setPower(0);
             } else {
@@ -179,14 +181,14 @@ public class TankOp extends OpMode {
         }
 
         leftArmHook.setPosition(leftServoPos);
-        rightArmHook.setPosition(rightServoPos);
+        rightArmHook.setPosition(rightServoPos);*/
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
-        telemetry.addData("left arm servo", leftServoPos);
-        telemetry.addData("right arm servo", rightServoPos);
-        telemetry.addData("bLeft", bLeft.isPressed());
+        //telemetry.addData("left arm servo", leftServoPos);
+        //telemetry.addData("right arm servo", rightServoPos);
+        //telemetry.addData("bLeft", bLeft.isPressed());
     }
 
     /*
