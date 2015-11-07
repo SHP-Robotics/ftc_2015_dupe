@@ -49,6 +49,7 @@ public class TankOp extends OpMode {
     DcMotor motorRight;
     DcMotor motorLeft;
     DcMotor leftBack, rightBack;
+    DcMotor dozer, output;
 
     Servo leftArmHook, rightArmHook;
 
@@ -84,22 +85,9 @@ public class TankOp extends OpMode {
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         leftBack = hardwareMap.dcMotor.get("motor_3");
         rightBack = hardwareMap.dcMotor.get("motor_4");
-        rightBack.setDirection(DcMotor.Direction.REVERSE);
-
-        /*leftArmHook = hardwareMap.servo.get("servo_1");
-        rightArmHook = hardwareMap.servo.get("servo_2");
-
-        fLeft = hardwareMap.touchSensor.get("touch_1");
-        fRight = hardwareMap.touchSensor.get("touch_2");
-        bLeft = hardwareMap.touchSensor.get("touch_3");
-        bRight = hardwareMap.touchSensor.get("touch_4");
-
-
-        leftArmHook.setDirection(Servo.Direction.FORWARD);
-        rightArmHook.setDirection(Servo.Direction.REVERSE);
-
-        leftArmHook.scaleRange(0,1);
-        rightArmHook.scaleRange(0,1);*/
+        leftBack.setDirection(DcMotor.Direction.REVERSE);
+        dozer = hardwareMap.dcMotor.get("motor_5");
+        output = hardwareMap.dcMotor.get("motor_6");
 
     }
 
@@ -118,20 +106,6 @@ public class TankOp extends OpMode {
         float left = throttle + direction;
 
 
-
-        if (gamepad2.right_bumper && rightServoPos > 0.05) {
-            rightServoPos -= 0.05;
-        } else if (rightServoPos < 0.95) {
-            rightServoPos += gamepad2.right_trigger/20;
-        }
-
-        if (gamepad2.left_bumper && leftServoPos > 0.05) {
-            leftServoPos -= 0.05;
-        } else if (leftServoPos < 0.95) {
-            leftServoPos += gamepad2.left_trigger/20;
-        }
-
-
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
         left = Range.clip(left, -1, 1);
@@ -147,48 +121,13 @@ public class TankOp extends OpMode {
         rightBack.setPower(right);
         leftBack.setPower(left);
 
+        dozer.setPower(-1 * gamepad2.left_stick_y);
+        output.setPower(gamepad2.a ? 1 : gamepad2.b ? -1 : 0);
 
-        /*if (fLeft.isPressed()) {
-            if (gamepad2.left_stick_y < 0){
-                leftArm.setPower(0);
-            } else {
-                leftArm.setPower(gamepad2.left_stick_y);
-            }
-        } else if (bLeft.isPressed()) {
-            if (gamepad2.left_stick_y > 0){
-                leftArm.setPower(0);
-            } else {
-                leftArm.setPower(gamepad2.left_stick_y);
-            }
-        } else {
-            leftArm.setPower(gamepad2.left_stick_y);
-        }
-
-        if (fRight.isPressed()) {
-            if (gamepad2.right_stick_y < 0){
-                rightArm.setPower(0);
-            } else {
-                rightArm.setPower(gamepad2.right_stick_y);
-            }
-        } else if (bRight.isPressed()) {
-            if (gamepad2.right_stick_y > 0){
-                rightArm.setPower(0);
-            } else {
-                rightArm.setPower(gamepad2.right_stick_y);
-            }
-        } else {
-            rightArm.setPower(gamepad2.right_stick_y);
-        }
-
-        leftArmHook.setPosition(leftServoPos);
-        rightArmHook.setPosition(rightServoPos);*/
 
         telemetry.addData("Text", "*** Robot Data***");
         telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
         telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
-        //telemetry.addData("left arm servo", leftServoPos);
-        //telemetry.addData("right arm servo", rightServoPos);
-        //telemetry.addData("bLeft", bLeft.isPressed());
     }
 
     /*
