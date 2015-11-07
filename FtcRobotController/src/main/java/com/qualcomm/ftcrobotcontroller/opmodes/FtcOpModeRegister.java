@@ -57,21 +57,12 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     manager.register("NullOp", NullOp.class);
 
-<<<<<<< HEAD
-
     manager.register("TankOp", TankOp.class);
     manager.register("DriveOp", DriveOp.class);
 
     manager.register("LegacyTestOp", LegacyTestOp.class);
     manager.register("ServoTestOp", ServoTestOp.class);
 
-=======
-    //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
-    manager.register("K9TeleOp", K9TeleOp.class);
-    manager.register("K9Line", K9Line.class);
-    manager.register ("PushBotAuto", PushBotAuto.class);
-    manager.register ("PushBotManual", PushBotManual.class);
->>>>>>> ftctechnh/master
 
 
 
