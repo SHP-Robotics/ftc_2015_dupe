@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.Range;
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class TankOp extends OpMode {
+public class AutoRedLeft extends OpMode {
 
 
 
@@ -51,18 +51,11 @@ public class TankOp extends OpMode {
     DcMotor leftBack, rightBack;
     DcMotor dozer, output;
 
-    Servo leftArmHook, rightArmHook;
-
-    TouchSensor fLeft, fRight, bLeft, bRight;
-
-    float leftServoPos = 0;
-    float rightServoPos = 0;
-
 
     /**
      * Constructor
      */
-    public TankOp() {
+    public AutoRedLeft() {
 
     }
 
@@ -99,35 +92,6 @@ public class TankOp extends OpMode {
     @Override
     public void loop() {
 
-
-        float throttle = -gamepad1.left_stick_y;
-        float direction = gamepad1.left_stick_x;
-        float right = throttle - direction;
-        float left = throttle + direction;
-
-
-        // clip the right/left values so that the values never exceed +/- 1
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
-
-        // scale the joystick value to make it easier to control
-        // the robot more precisely at slower speeds.
-        right = (float)scaleInput(right);
-        left =  (float)scaleInput(left);
-
-        // write the values to the motors
-        motorRight.setPower(right);
-        motorLeft.setPower(left);
-        rightBack.setPower(right);
-        leftBack.setPower(left);
-
-        dozer.setPower(-0.25 * gamepad2.left_stick_y);
-        output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
-
-
-        telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
-        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
     }
 
     /*
@@ -139,32 +103,4 @@ public class TankOp extends OpMode {
     public void stop() {
 
     }
-
-    /*
-     * This method scales the joystick input so for low joystick values, the
-     * scaled value is less than linear.  This is to make it easier to drive
-     * the robot more precisely at slower speeds.
-     */
-    double scaleInput(double dVal)  {
-        double[] scaleArray = { 0.0, 0.05, 0.09, 0.10, 0.12, 0.15, 0.18, 0.24,
-                0.30, 0.36, 0.43, 0.50, 0.60, 0.72, 0.85, 1.00, 1.00 };
-
-        // get the corresponding index for the scaleInput array.
-        int index = (int) (dVal * 16.0);
-        if (index < 0) {
-            index = -index;
-        } else if (index > 16) {
-            index = 16;
-        }
-
-        double dScale = 0.0;
-        if (dVal < 0) {
-            dScale = -scaleArray[index];
-        } else {
-            dScale = scaleArray[index];
-        }
-
-        return dScale;
-    }
-
 }
