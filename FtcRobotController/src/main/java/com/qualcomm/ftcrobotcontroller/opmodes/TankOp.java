@@ -125,7 +125,7 @@ public class TankOp extends OpMode {
         leftBack.setPower(left);
 
         dozer.setPower(-0.85 * gamepad2.left_stick_y);
-        dozer.setPower(-0.85 * gamepad1.right_stick_y);
+        popper.setPower(-0.85 * gamepad1.right_stick_y);
         output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
 
 
