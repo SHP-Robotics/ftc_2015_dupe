@@ -50,6 +50,7 @@ public class TankOp extends OpMode {
     DcMotor motorLeft;
     DcMotor leftBack, rightBack;
     DcMotor dozer, output;
+    DcMotor popper;
 
     Servo leftArmHook, rightArmHook;
 
@@ -87,7 +88,9 @@ public class TankOp extends OpMode {
         rightBack = hardwareMap.dcMotor.get("motor_4");
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         dozer = hardwareMap.dcMotor.get("motor_5");
+        dozer.setDirection(DcMotor.Direction.REVERSE);
         output = hardwareMap.dcMotor.get("motor_6");
+        popper = hardwareMap.dcMotor.get("motor_7");
 
     }
 
@@ -121,7 +124,8 @@ public class TankOp extends OpMode {
         rightBack.setPower(right);
         leftBack.setPower(left);
 
-        dozer.setPower(-0.25 * gamepad2.left_stick_y);
+        dozer.setPower(-0.85 * gamepad2.left_stick_y);
+        dozer.setPower(-0.85 * gamepad1.right_stick_y);
         output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
 
 
