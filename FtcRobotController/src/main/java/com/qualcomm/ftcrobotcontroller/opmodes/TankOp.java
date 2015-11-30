@@ -33,8 +33,8 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -50,15 +50,13 @@ public class TankOp extends OpMode {
     DcMotor motorLeft;
     DcMotor leftBack, rightBack;
     DcMotor dozer, output;
-    DcMotor popperLeft, popperRight;
+    DcMotor tapeMeasure;
 
-    Servo leftArmHook, rightArmHook;
+    Servo zipLineGetter, brazo;
 
-    TouchSensor fLeft, fRight, bLeft, bRight;
+    float zipPos;
 
-    float leftServoPos = 0;
-    float rightServoPos = 0;
-
+    float brazoPos;
 
     /**
      * Constructor
@@ -90,9 +88,14 @@ public class TankOp extends OpMode {
         dozer = hardwareMap.dcMotor.get("motor_5");
         dozer.setDirection(DcMotor.Direction.REVERSE);
         output = hardwareMap.dcMotor.get("motor_6");
-        popperLeft = hardwareMap.dcMotor.get("motor_7");
-        popperRight = hardwareMap.dcMotor.get("motor_8");
-        popperRight.setDirection(DcMotor.Direction.REVERSE);
+        tapeMeasure = hardwareMap.dcMotor.get("motor_7");
+
+        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+
+        zipLineGetter = hardwareMap.servo.get("servo_1");
+        brazo = hardwareMap.servo.get("servo_2");
 
     }
 
@@ -111,6 +114,19 @@ public class TankOp extends OpMode {
         float left = throttle + direction;
 
 
+
+        if (gamepad2.right_bumper && zipPos > 0.05) {
+            zipPos -= 0.05;
+        } else if (zipPos < 0.95) {
+            zipPos += gamepad2.right_trigger/20;
+        }
+
+        if (gamepad2.left_bumper && brazoPos > 0.05) {
+            brazoPos -= 0.05;
+        } else if (brazoPos < 0.95) {
+            brazoPos += gamepad2.left_trigger/20;
+        }
+
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
         left = Range.clip(left, -1, 1);
@@ -126,10 +142,13 @@ public class TankOp extends OpMode {
         rightBack.setPower(right);
         leftBack.setPower(left);
 
+        tapeMeasure.setPower(gamepad2.right_stick_y);
+
         dozer.setPower(-0.85 * gamepad2.left_stick_y);
-        popperLeft.setPower(-1 * gamepad1.right_stick_y);
-        popperRight.setPower(-1 * gamepad1.right_stick_y);
         output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
+
+        zipLineGetter.setPosition(1 - zipPos);
+        brazo.setPosition(1 - brazoPos);
 
 
         telemetry.addData("Text", "*** Robot Data***");

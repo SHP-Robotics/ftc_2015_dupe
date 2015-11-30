@@ -33,6 +33,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.util.Range;
@@ -50,6 +51,13 @@ public class AutoRedLeft extends OpMode {
     DcMotor motorLeft;
     DcMotor leftBack, rightBack;
     DcMotor dozer, output;
+    DcMotor tapeMeasure;
+
+    Servo zipLineGetter, brazo;
+
+    float zipPos;
+
+    float brazoPos;
 
 
     /**
@@ -80,7 +88,16 @@ public class AutoRedLeft extends OpMode {
         rightBack = hardwareMap.dcMotor.get("motor_4");
         leftBack.setDirection(DcMotor.Direction.REVERSE);
         dozer = hardwareMap.dcMotor.get("motor_5");
+        dozer.setDirection(DcMotor.Direction.REVERSE);
         output = hardwareMap.dcMotor.get("motor_6");
+        tapeMeasure = hardwareMap.dcMotor.get("motor_7");
+
+        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+
+        zipLineGetter = hardwareMap.servo.get("servo_1");
+        brazo = hardwareMap.servo.get("servo_2");
 
     }
 
