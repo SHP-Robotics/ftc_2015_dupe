@@ -50,13 +50,13 @@ public class SoloOp extends OpMode {
     DcMotor motorLeft;
     DcMotor leftBack, rightBack;
     DcMotor dozer, output;
-    DcMotor tapeMeasure;
+    DcMotor tapeMeasure, tape2;
 
-    Servo zipLineGetter, brazo;
+    Servo zipLineGetter, leftTape, brazo;
 
     float zipPos;
 
-    float brazoPos;
+    float leftTapepos, brazoPos;
 
     /**
      * Constructor
@@ -89,6 +89,7 @@ public class SoloOp extends OpMode {
         dozer.setDirection(DcMotor.Direction.REVERSE);
         output = hardwareMap.dcMotor.get("motor_6");
         tapeMeasure = hardwareMap.dcMotor.get("motor_7");
+        tape2 = hardwareMap.dcMotor.get("motor_8");
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -96,6 +97,8 @@ public class SoloOp extends OpMode {
 
         zipLineGetter = hardwareMap.servo.get("servo_1");
         brazo = hardwareMap.servo.get("servo_2");
+        leftTape = hardwareMap.servo.get("servo_3");
+
 
     }
 
@@ -121,10 +124,18 @@ public class SoloOp extends OpMode {
             zipPos += gamepad1.right_trigger/200;
         }
 
-        if (gamepad1.left_bumper && brazoPos > 0.05) {
-            brazoPos -= 0.05;
-        } else if (brazoPos < 0.95) {
-            brazoPos += gamepad1.left_trigger/20;
+        if (gamepad1.left_bumper && leftTapepos > 0.005) {
+            leftTapepos -= 0.005;
+        } else if (leftTapepos < 0.99) {
+            leftTapepos += gamepad1.left_trigger/200;
+        }
+
+        if (brazoPos < 0.05 && gamepad1.right_stick_x > 0) {
+            brazoPos += gamepad1.right_stick_x/20;
+        } else if (brazoPos > 0.95 && gamepad1.right_stick_x < 0) {
+            brazoPos += gamepad1.right_stick_x/20;
+        } else {
+            brazoPos += gamepad1.right_stick_x/20;
         }
 
         // clip the right/left values so that the values never exceed +/- 1
@@ -142,13 +153,15 @@ public class SoloOp extends OpMode {
         rightBack.setPower(right);
         leftBack.setPower(left);
 
-        tapeMeasure.setPower(gamepad1.y ? 1 : gamepad1.a ? -1 : 0);
+        tapeMeasure.setPower(gamepad1.y ? -1 : gamepad1.a ? 1 : 0);
+        tape2.setPower(gamepad1.dpad_up ? 1 : gamepad1.dpad_down ? -1 : 0);
 
-        dozer.setPower(-0.85 * gamepad1.right_stick_y);
+        dozer.setPower(0.85 * gamepad1.right_stick_y);
         output.setPower(gamepad1.dpad_left ? 0.75 : gamepad1.dpad_right ? -0.75 : 0);
 
         zipLineGetter.setPosition(1 - zipPos);
-        brazo.setPosition(1 - brazoPos);
+        leftTape.setPosition(1 - leftTapepos);
+        brazo.setPosition(brazoPos);
 
 
         telemetry.addData("Text", "*** Robot Data***");
