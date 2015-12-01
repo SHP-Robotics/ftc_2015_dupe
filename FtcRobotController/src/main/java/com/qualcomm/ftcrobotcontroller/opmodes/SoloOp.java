@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.Range;
  * <p>
  * Enables control of the robot via the gamepad
  */
-public class TankOp extends OpMode {
+public class SoloOp extends OpMode {
 
 
 
@@ -61,7 +61,7 @@ public class TankOp extends OpMode {
     /**
      * Constructor
      */
-    public TankOp() {
+    public SoloOp() {
 
     }
 
@@ -115,16 +115,16 @@ public class TankOp extends OpMode {
 
 
 
-        if (gamepad2.right_bumper && zipPos > 0.005) {
+        if (gamepad1.right_bumper && zipPos > 0.005) {
             zipPos -= 0.005;
         } else if (zipPos < 0.99) {
-            zipPos += gamepad2.right_trigger/200;
+            zipPos += gamepad1.right_trigger/200;
         }
 
-        if (gamepad2.left_bumper && brazoPos > 0.05) {
+        if (gamepad1.left_bumper && brazoPos > 0.05) {
             brazoPos -= 0.05;
         } else if (brazoPos < 0.95) {
-            brazoPos += gamepad2.left_trigger/20;
+            brazoPos += gamepad1.left_trigger/20;
         }
 
         // clip the right/left values so that the values never exceed +/- 1
@@ -142,10 +142,10 @@ public class TankOp extends OpMode {
         rightBack.setPower(right);
         leftBack.setPower(left);
 
-        tapeMeasure.setPower(gamepad2.right_stick_y);
+        tapeMeasure.setPower(gamepad1.y ? 1 : gamepad1.a ? -1 : 0);
 
-        dozer.setPower(-0.85 * gamepad2.left_stick_y);
-        output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
+        dozer.setPower(-0.85 * gamepad1.right_stick_y);
+        output.setPower(gamepad1.dpad_left ? 0.75 : gamepad1.dpad_right ? -0.75 : 0);
 
         zipLineGetter.setPosition(1 - zipPos);
         brazo.setPosition(1 - brazoPos);

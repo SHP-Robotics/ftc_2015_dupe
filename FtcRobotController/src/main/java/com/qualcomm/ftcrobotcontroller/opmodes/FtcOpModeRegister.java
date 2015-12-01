@@ -58,6 +58,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     manager.register("NullOp", NullOp.class);
 
     manager.register("TeleOp", TankOp.class);
+    manager.register("SoloOp", SoloOp.class);
     manager.register("AutoRedLeft", AutoRedLeft.class);
     //manager.register("DriveOp", DriveOp.class);
 
