@@ -205,10 +205,6 @@ public class AutoBlue extends SHPBase {
 
                 break;
 
-            case 12:
-                brazo.setPosition(1);
-                brazo.setPosition(0);
-
             //
             // Perform no action - stay in this case until the OpMode is stopped.
             // This method will still be called regardless of the state machine.
