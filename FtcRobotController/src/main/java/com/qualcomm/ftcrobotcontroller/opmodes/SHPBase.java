@@ -244,9 +244,6 @@ public class SHPBase extends OpMode {
         //
         run_using_left_drive_encoder ();
         run_using_right_drive_encoder ();
-        if (dozer != null) {
-            dozer.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        }
 
     } // run_using_encoders
 
@@ -411,15 +408,6 @@ public class SHPBase extends OpMode {
 
     } // a_right_encoder_count
 
-    int a_dozer_encoder_count () {
-        int l_return = 0;
-
-        if (dozer != null)
-            l_return = dozer.getCurrentPosition();
-
-        return l_return;
-    }
-
     //--------------------------------------------------------------------------
     //
     // has_left_drive_encoder_reached
@@ -495,27 +483,6 @@ public class SHPBase extends OpMode {
         return l_return;
 
     } // has_right_drive_encoder_reached
-
-    boolean has_dozer_encoder_reached (double e_count) {
-
-        boolean l_return = false;
-
-        if (dozer != null)
-        {
-            if (Math.abs (dozer.getCurrentPosition ()) > e_count)
-            {
-                //
-                // Set the status to a positive indication.
-                //
-                l_return = true;
-            }
-        }
-
-        //
-        // Return the status.
-        //
-        return l_return;
-    }
 
     //--------------------------------------------------------------------------
     //
