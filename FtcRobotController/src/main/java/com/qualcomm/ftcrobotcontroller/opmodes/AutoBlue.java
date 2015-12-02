@@ -3,11 +3,11 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 /**
  * Created by andrew on 12/1/15.
  */
-public class AutoRedLeftMt extends SHPBase {
+public class AutoBlue extends SHPBase {
 
     private int v_state = 0;
 
-    public AutoRedLeftMt() {
+    public AutoBlue() {
 
     }
 
@@ -111,7 +111,7 @@ public class AutoRedLeftMt extends SHPBase {
             //
             case 3:
                 run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
+                set_drive_power (1.0f, -1.0f);
                 if (have_drive_encoders_reached (1000, 1000))
                 {
                     reset_drive_encoders ();
@@ -153,7 +153,7 @@ public class AutoRedLeftMt extends SHPBase {
 
             case 7:
                 run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
+                set_drive_power (1.0f, -1.0f);
                 if (have_drive_encoders_reached (3600, 3600))
                 {
                     reset_drive_encoders ();

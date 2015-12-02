@@ -131,11 +131,11 @@ public class SoloOp extends OpMode {
         }
 
         if (brazoPos < 0.05 && gamepad1.right_stick_x > 0) {
-            brazoPos += gamepad1.right_stick_x/20;
+            brazoPos -= gamepad1.right_stick_x/20;
         } else if (brazoPos > 0.95 && gamepad1.right_stick_x < 0) {
-            brazoPos += gamepad1.right_stick_x/20;
+            brazoPos -= gamepad1.right_stick_x/20;
         } else {
-            brazoPos += gamepad1.right_stick_x/20;
+            brazoPos -= gamepad1.right_stick_x/20;
         }
 
         // clip the right/left values so that the values never exceed +/- 1
@@ -159,9 +159,13 @@ public class SoloOp extends OpMode {
         dozer.setPower(0.85 * gamepad1.right_stick_y);
         output.setPower(gamepad1.dpad_left ? 0.75 : gamepad1.dpad_right ? -0.75 : 0);
 
-        zipLineGetter.setPosition(1 - zipPos);
-        leftTape.setPosition(1 - leftTapepos);
-        brazo.setPosition(brazoPos);
+        try {
+            zipLineGetter.setPosition(1 - zipPos);
+            leftTape.setPosition(1 - leftTapepos);
+            brazo.setPosition(Range.clip(brazoPos, 0, 1));
+        } finally {
+
+        }
 
 
         telemetry.addData("Text", "*** Robot Data***");

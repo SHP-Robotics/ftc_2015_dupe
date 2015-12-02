@@ -160,9 +160,13 @@ public class TankOp extends OpMode {
         dozer.setPower(-0.85 * gamepad2.left_stick_y);
         output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
 
-        zipLineGetter.setPosition(1 - zipPos);
-        leftTape.setPosition(1 - leftTapepos);
-        brazo.setPosition(brazoPos);
+        try {
+            zipLineGetter.setPosition(1 - zipPos);
+            leftTape.setPosition(1 - leftTapepos);
+            brazo.setPosition(Range.clip(brazoPos, -1, 1));
+        } finally {
+
+        }
 
 
         telemetry.addData("Text", "*** Robot Data***");
