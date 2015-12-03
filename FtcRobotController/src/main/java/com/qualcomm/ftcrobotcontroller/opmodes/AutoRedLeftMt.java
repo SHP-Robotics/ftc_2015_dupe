@@ -188,19 +188,31 @@ public class AutoRedLeftMt extends SHPBase {
                 if (have_drive_encoders_reset ())
                 {
                     v_state++;
+                    brazo.setPosition(0);
                 }
                 break;
 
             case 11:
+                run_using_encoders ();
+                set_drive_power (-1.0f, 1.0f);
+                if (have_drive_encoders_reached (300, 300))
+                {
+                    reset_drive_encoders ();
+                    set_drive_power (0.0f, 0.0f);
+                    v_state++;
+                }
+                break;
+
+            case 12:
 
                 if (brazo.getPosition() < 0.1) {
-                    //brazo.setPosition(1);
+                    brazo.setPosition(0);
                     v_state++;
                 } else {
                     if (brazoPos > 0.011) {
                         brazoPos -= 0.003;
                     }
-                    brazo.setPosition(brazoPos);
+                    brazo.setPosition(1-brazoPos);
                 }
 
                 break;
