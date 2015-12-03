@@ -1,11 +1,15 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.hardware.DcMotorController;
+
 /**
  * Created by andrew on 12/1/15.
  */
 public class AutoRedLeftMt extends SHPBase {
 
     private int v_state = 0;
+    private int loops = 0;
+    private int dozerEncPos = 0;
 
     public AutoRedLeftMt() {
 
@@ -49,6 +53,7 @@ public class AutoRedLeftMt extends SHPBase {
                 // Reset the encoders to ensure they are at a known good value.
                 //
                 reset_drive_encoders ();
+                dozer.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
                 //
                 // Transition to the next state when this method is called again.
@@ -66,11 +71,18 @@ public class AutoRedLeftMt extends SHPBase {
                 // work.  It doesn't need to be in subsequent states.
                 //
                 run_using_encoders ();
+                dozer.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
                 //
                 // Start the drive wheel motors at full power.
                 //
-                set_drive_power (1.0f, 1.0f);
+                set_drive_power(1.0f, 1.0f);
+                dozer.setPower(0.7);
+
+                if (Math.abs(dozerEncPos) == 0) {
+                    dozer.setPower(0);
+                    dozer.setPowerFloat();
+                }
 
                 //
                 // Have the motor shafts turned the required amount?
@@ -195,7 +207,7 @@ public class AutoRedLeftMt extends SHPBase {
             case 11:
                 run_using_encoders ();
                 set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached (300, 300))
+                if (have_drive_encoders_reached(300, 300))
                 {
                     reset_drive_encoders ();
                     set_drive_power (0.0f, 0.0f);
@@ -229,6 +241,8 @@ public class AutoRedLeftMt extends SHPBase {
                 break;
         }
 
+        do_dozer_stuff();
+
         //
         // Send telemetry data to the driver station.
         //
@@ -236,5 +250,19 @@ public class AutoRedLeftMt extends SHPBase {
         telemetry.addData("18", "State: " + v_state);
         telemetry.addData("19", "BrazoPos: " + brazoPos);
     } // loop
+
+    public void do_dozer_stuff () {
+        loops++;
+
+        if (loops % 17 == 0)
+            dozerController.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY);
+
+
+        if (dozerController.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.READ_ONLY) {
+            dozerEncPos = dozer.getCurrentPosition();
+            loops = 0;
+            dozerController.setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+        }
+    }
 
 }

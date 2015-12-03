@@ -53,6 +53,8 @@ public class SHPBase extends OpMode {
     DcMotor dozer, output;
     DcMotor tapeMeasure, tape2;
 
+    DcMotorController dozerController;
+
     Servo zipLineGetter, leftTape, brazo;
 
     float zipPos;
@@ -93,7 +95,7 @@ public class SHPBase extends OpMode {
         tapeMeasure = hardwareMap.dcMotor.get("motor_7");
         tape2 = hardwareMap.dcMotor.get("motor_8");
 
-
+        dozerController = hardwareMap.dcMotorController.get("mc_1");
 
         zipLineGetter = hardwareMap.servo.get("servo_1");
         brazo = hardwareMap.servo.get("servo_2");
