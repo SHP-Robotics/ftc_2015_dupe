@@ -3,7 +3,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
 /**
- * Created by andrew on 12/1/15.
+ * Created by andrew on Dec 04, 2015 as part of FtcRobotController in ${PACKAGE_NAME}.
  */
 public class AutoBlue extends SHPBase {
 

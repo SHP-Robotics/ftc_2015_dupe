@@ -101,6 +101,10 @@ public class TankOp extends OpMode {
 
     }
 
+    public void start() {
+        resetStartTime();
+    }
+
     /*
      * This method will be called repeatedly in a loop
      *
@@ -109,67 +113,69 @@ public class TankOp extends OpMode {
     @Override
     public void loop() {
 
+        if (getRuntime() < 120) {
+            float throttle = -gamepad1.left_stick_y;
+            float direction = gamepad1.left_stick_x;
+            float right = throttle - direction;
+            float left = throttle + direction;
 
-        float throttle = -gamepad1.left_stick_y;
-        float direction = gamepad1.left_stick_x;
-        float right = throttle - direction;
-        float left = throttle + direction;
+
+            if (gamepad2.right_bumper && zipPos > 0.005) {
+                zipPos -= 0.005;
+            } else if (zipPos < 0.99) {
+                zipPos += gamepad2.right_trigger / 200;
+            }
+
+            if (gamepad2.left_bumper && leftTapepos > 0.005) {
+                leftTapepos -= 0.005;
+            } else if (leftTapepos < 0.99) {
+                leftTapepos += gamepad1.left_trigger / 200;
+            }
+
+            if (brazoPos < 0.05 && gamepad2.right_stick_x > 0) {
+                brazoPos += gamepad2.right_stick_x / 20;
+            } else if (brazoPos > 0.95 && gamepad2.right_stick_x < 0) {
+                brazoPos += gamepad2.right_stick_x / 20;
+            } else {
+                brazoPos += gamepad2.right_stick_x / 20;
+            }
 
 
-        if (gamepad2.right_bumper && zipPos > 0.005) {
-            zipPos -= 0.005;
-        } else if (zipPos < 0.99) {
-            zipPos += gamepad2.right_trigger / 200;
+            // clip the right/left values so that the values never exceed +/- 1
+            right = Range.clip(right, -1, 1);
+            left = Range.clip(left, -1, 1);
+
+            // scale the joystick value to make it easier to control
+            // the robot more precisely at slower speeds.
+            right = (float) scaleInput(right);
+            left = (float) scaleInput(left);
+
+            // write the values to the motors
+            motorRight.setPower(right);
+            motorLeft.setPower(left);
+            rightBack.setPower(right);
+            leftBack.setPower(left);
+
+            tapeMeasure.setPower(gamepad2.right_stick_y);
+            tape2.setPower(gamepad2.dpad_up ? 1 : gamepad2.dpad_down ? -1 : 0);
+
+            dozer.setPower(-0.85 * gamepad2.left_stick_y);
+            output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
+
+            try {
+                zipLineGetter.setPosition(1 - zipPos);
+                leftTape.setPosition(1 - leftTapepos);
+                brazo.setPosition(Range.clip(brazoPos, -1, 1));
+            } finally {
+
+            }
+
+
+            telemetry.addData("Text", "*** Robot Data***");
+            telemetry.addData("01 Time remaining: ", 120 - getRuntime());
+            telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
+            telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
         }
-
-        if (gamepad2.left_bumper && leftTapepos > 0.005) {
-            leftTapepos -= 0.005;
-        } else if (leftTapepos < 0.99) {
-            leftTapepos += gamepad1.left_trigger / 200;
-        }
-
-        if (brazoPos < 0.05 && gamepad2.right_stick_x > 0) {
-            brazoPos += gamepad2.right_stick_x / 20;
-        } else if (brazoPos > 0.95 && gamepad2.right_stick_x < 0) {
-            brazoPos += gamepad2.right_stick_x / 20;
-        } else {
-            brazoPos += gamepad2.right_stick_x / 20;
-        }
-
-
-        // clip the right/left values so that the values never exceed +/- 1
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
-
-        // scale the joystick value to make it easier to control
-        // the robot more precisely at slower speeds.
-        right = (float) scaleInput(right);
-        left = (float) scaleInput(left);
-
-        // write the values to the motors
-        motorRight.setPower(right);
-        motorLeft.setPower(left);
-        rightBack.setPower(right);
-        leftBack.setPower(left);
-
-        tapeMeasure.setPower(gamepad2.right_stick_y);
-        tape2.setPower(gamepad2.dpad_up ? 1 : gamepad2.dpad_down ? -1 : 0);
-
-        dozer.setPower(-0.85 * gamepad2.left_stick_y);
-        output.setPower(gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0);
-
-        try {
-            zipLineGetter.setPosition(1 - zipPos);
-            leftTape.setPosition(1 - leftTapepos);
-            brazo.setPosition(Range.clip(brazoPos, -1, 1));
-        } finally {
-
-        }
-
-
-        telemetry.addData("Text", "*** Robot Data***");
-        telemetry.addData("left tgt pwr", "left  pwr: " + String.format("%.2f", left));
-        telemetry.addData("right tgt pwr", "right pwr: " + String.format("%.2f", right));
     }
 
     /*
