@@ -7,13 +7,21 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
  */
 public class AutoRedLeftMt extends SHPBase {
 
-    private int v_state = 0;
+    private int v_state = -1;
     private int loops = 0;
     private int dozerEncPos = 0;
 
     public AutoRedLeftMt() {
 
     }
+
+    @Override
+    public void init() {
+        super.init();
+        //dozerController.setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+
+    }
+
 
     /**
      * Perform any actions that are necessary when the OpMode is enabled.
@@ -26,12 +34,12 @@ public class AutoRedLeftMt extends SHPBase {
         //
         // Call the PushBotHardware (super/base class) start method.
         //
-        super.start ();
+        super.start();
 
         //
         // Reset the motor encoders on the drive wheels.
         //
-        reset_drive_encoders ();
+        reset_drive_encoders();
         brazoPos = 1;
 
     } // start
@@ -45,6 +53,15 @@ public class AutoRedLeftMt extends SHPBase {
         //
         switch (v_state)
         {
+            case -1:
+                dozer.setPower(0.3);
+                loops++;
+                if (loops > 300) {
+                    dozer.setPower(-0.2);
+                    //dozer.setPowerFloat();
+                    v_state++;
+                }
+                break;
             //
             // Synchronize the state machine and hardware.
             //
@@ -53,7 +70,7 @@ public class AutoRedLeftMt extends SHPBase {
                 // Reset the encoders to ensure they are at a known good value.
                 //
                 reset_drive_encoders ();
-                dozer.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                // dozer.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
                 //
                 // Transition to the next state when this method is called again.
@@ -71,18 +88,13 @@ public class AutoRedLeftMt extends SHPBase {
                 // work.  It doesn't need to be in subsequent states.
                 //
                 run_using_encoders ();
-                dozer.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+                //dozer.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
                 //
                 // Start the drive wheel motors at full power.
                 //
                 set_drive_power(1.0f, 1.0f);
-                dozer.setPower(0.7);
-
-                if (Math.abs(dozerEncPos) == 0) {
-                    dozer.setPower(0);
-                    dozer.setPowerFloat();
-                }
+                dozer.setPower(0.1);
 
                 //
                 // Have the motor shafts turned the required amount?
@@ -101,6 +113,8 @@ public class AutoRedLeftMt extends SHPBase {
                     // Stop the motors.
                     //
                     set_drive_power (0.0f, 0.0f);
+                    dozer.setPower(0);
+                    dozer.setPowerFloat();
 
                     //
                     // Transition to the next state when this method is called
@@ -146,7 +160,7 @@ public class AutoRedLeftMt extends SHPBase {
             case 5:
                 run_using_encoders ();
                 set_drive_power (1.0f, 1.0f);
-                if (have_drive_encoders_reached (7500, 7500))
+                if (have_drive_encoders_reached (7400, 7400))
                 {
                     reset_drive_encoders ();
                     set_drive_power (0.0f, 0.0f);
@@ -200,14 +214,14 @@ public class AutoRedLeftMt extends SHPBase {
                 if (have_drive_encoders_reset ())
                 {
                     v_state++;
-                    brazo.setPosition(0);
+                    //brazo.setPosition(0);
                 }
                 break;
 
             case 11:
                 run_using_encoders ();
                 set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached(300, 300))
+                if (have_drive_encoders_reached(500, 500))
                 {
                     reset_drive_encoders ();
                     set_drive_power (0.0f, 0.0f);
@@ -241,7 +255,7 @@ public class AutoRedLeftMt extends SHPBase {
                 break;
         }
 
-        do_dozer_stuff();
+        //do_dozer_stuff();
 
         //
         // Send telemetry data to the driver station.
