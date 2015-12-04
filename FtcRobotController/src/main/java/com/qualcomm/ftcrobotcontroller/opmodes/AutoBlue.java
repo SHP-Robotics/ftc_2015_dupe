@@ -1,15 +1,27 @@
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.robotcore.hardware.DcMotorController;
+
 /**
  * Created by andrew on 12/1/15.
  */
 public class AutoBlue extends SHPBase {
 
-    private int v_state = 0;
+    private int v_state = -1;
+    private int loops = 0;
+    private int dozerEncPos = 0;
 
-    public AutoBlue() {
+    public AutoBlue () {
 
     }
+
+    @Override
+    public void init() {
+        super.init();
+        //dozerController.setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+
+    }
+
 
     /**
      * Perform any actions that are necessary when the OpMode is enabled.
@@ -22,12 +34,12 @@ public class AutoBlue extends SHPBase {
         //
         // Call the PushBotHardware (super/base class) start method.
         //
-        super.start ();
+        super.start();
 
         //
         // Reset the motor encoders on the drive wheels.
         //
-        reset_drive_encoders ();
+        reset_drive_encoders();
         brazoPos = 1;
 
     } // start
@@ -41,6 +53,15 @@ public class AutoBlue extends SHPBase {
         //
         switch (v_state)
         {
+            case -1:
+                dozer.setPower(0.3);
+                loops++;
+                if (loops > 300) {
+                    dozer.setPower(-0.2);
+                    //dozer.setPowerFloat();
+                    v_state++;
+                }
+                break;
             //
             // Synchronize the state machine and hardware.
             //
@@ -49,6 +70,7 @@ public class AutoBlue extends SHPBase {
                 // Reset the encoders to ensure they are at a known good value.
                 //
                 reset_drive_encoders ();
+                // dozer.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
                 //
                 // Transition to the next state when this method is called again.
@@ -66,11 +88,13 @@ public class AutoBlue extends SHPBase {
                 // work.  It doesn't need to be in subsequent states.
                 //
                 run_using_encoders ();
+                //dozer.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
                 //
                 // Start the drive wheel motors at full power.
                 //
-                set_drive_power (1.0f, 1.0f);
+                set_drive_power(1.0f, 1.0f);
+
 
                 //
                 // Have the motor shafts turned the required amount?
@@ -78,7 +102,7 @@ public class AutoBlue extends SHPBase {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (4965, 4965))
+                if (have_drive_encoders_reached (2500, 2500))
                 {
                     //
                     // Reset the encoders to ensure they are at a known good value.
@@ -89,6 +113,7 @@ public class AutoBlue extends SHPBase {
                     // Stop the motors.
                     //
                     set_drive_power (0.0f, 0.0f);
+
 
                     //
                     // Transition to the next state when this method is called
@@ -134,7 +159,7 @@ public class AutoBlue extends SHPBase {
             case 5:
                 run_using_encoders ();
                 set_drive_power (1.0f, 1.0f);
-                if (have_drive_encoders_reached (7500, 7500))
+                if (have_drive_encoders_reached (4900, 4900))
                 {
                     reset_drive_encoders ();
                     set_drive_power (0.0f, 0.0f);
@@ -153,8 +178,8 @@ public class AutoBlue extends SHPBase {
 
             case 7:
                 run_using_encoders ();
-                set_drive_power (1.0f, -1.0f);
-                if (have_drive_encoders_reached (3600, 3600))
+                set_drive_power (-1.0f, 1.0f);
+                if (have_drive_encoders_reached (1000, 1000))
                 {
                     reset_drive_encoders ();
                     set_drive_power (0.0f, 0.0f);
@@ -171,7 +196,7 @@ public class AutoBlue extends SHPBase {
                 }
                 break;
 
-            case 9:
+            /*case 9:
                 run_using_encoders ();
                 set_drive_power (1.0f, 1.0f);
                 if (have_drive_encoders_reached (2850, 2850))
@@ -188,22 +213,22 @@ public class AutoBlue extends SHPBase {
                 if (have_drive_encoders_reset ())
                 {
                     v_state++;
-                    brazo.setPosition(1);
+                    //brazo.setPosition(0);
                 }
                 break;
 
             case 11:
                 run_using_encoders ();
                 set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached (300, 300))
+                if (have_drive_encoders_reached(500, 500))
                 {
                     reset_drive_encoders ();
                     set_drive_power (0.0f, 0.0f);
                     v_state++;
                 }
-                break;
+                break;*/
 
-            case 12:
+            case 9:
 
                 if (brazo.getPosition() < 0.1) {
                     brazo.setPosition(0);
@@ -212,10 +237,11 @@ public class AutoBlue extends SHPBase {
                     if (brazoPos > 0.011) {
                         brazoPos -= 0.003;
                     }
-                    brazo.setPosition(1-brazoPos);
+                    brazo.setPosition(brazoPos);
                 }
 
                 break;
+
             //
             // Perform no action - stay in this case until the OpMode is stopped.
             // This method will still be called regardless of the state machine.
@@ -228,6 +254,8 @@ public class AutoBlue extends SHPBase {
                 break;
         }
 
+        //do_dozer_stuff();
+
         //
         // Send telemetry data to the driver station.
         //
@@ -235,5 +263,19 @@ public class AutoBlue extends SHPBase {
         telemetry.addData("18", "State: " + v_state);
         telemetry.addData("19", "BrazoPos: " + brazoPos);
     } // loop
+
+    public void do_dozer_stuff () {
+        loops++;
+
+        if (loops % 17 == 0)
+            dozerController.setMotorControllerDeviceMode(DcMotorController.DeviceMode.READ_ONLY);
+
+
+        if (dozerController.getMotorControllerDeviceMode() == DcMotorController.DeviceMode.READ_ONLY) {
+            dozerEncPos = dozer.getCurrentPosition();
+            loops = 0;
+            dozerController.setMotorControllerDeviceMode(DcMotorController.DeviceMode.WRITE_ONLY);
+        }
+    }
 
 }

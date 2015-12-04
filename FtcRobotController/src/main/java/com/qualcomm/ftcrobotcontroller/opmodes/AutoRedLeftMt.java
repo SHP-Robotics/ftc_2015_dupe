@@ -94,7 +94,7 @@ public class AutoRedLeftMt extends SHPBase {
                 // Start the drive wheel motors at full power.
                 //
                 set_drive_power(1.0f, 1.0f);
-                dozer.setPower(0.1);
+
 
                 //
                 // Have the motor shafts turned the required amount?
@@ -113,8 +113,7 @@ public class AutoRedLeftMt extends SHPBase {
                     // Stop the motors.
                     //
                     set_drive_power (0.0f, 0.0f);
-                    dozer.setPower(0);
-                    dozer.setPowerFloat();
+
 
                     //
                     // Transition to the next state when this method is called
@@ -238,7 +237,7 @@ public class AutoRedLeftMt extends SHPBase {
                     if (brazoPos > 0.011) {
                         brazoPos -= 0.003;
                     }
-                    brazo.setPosition(1-brazoPos);
+                    brazo.setPosition(brazoPos);
                 }
 
                 break;

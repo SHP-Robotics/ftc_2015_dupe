@@ -59,9 +59,10 @@ public class FtcOpModeRegister implements OpModeRegister {
 
     manager.register("TeleOp", TankOp.class);
     manager.register("SoloOp", SoloOp.class);
-    manager.register("SHPBase", SHPBase.class);
+    // manager.register("SHPBase", SHPBase.class);
     manager.register("EncoderTestOp", EncoderReadOp.class);
-    manager.register("AutoRedLeftMt", AutoRedLeftMt.class);
+    manager.register("AutoRed", AutoRedLeftMt.class);
+    manager.register("AutoBlue", AutoBlue.class);
     //manager.register("DriveOp", DriveOp.class);
 
     //manager.register("LegacyTestOp", LegacyTestOp.class);
