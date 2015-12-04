@@ -25,10 +25,11 @@ public class AutoRedLeftMt extends SHPBase {
 
     /**
      * Perform any actions that are necessary when the OpMode is enabled.
-     *
+     * <p/>
      * The system calls this member once when the OpMode is enabled.
      */
-    @Override public void start ()
+    @Override
+    public void start()
 
     {
         //
@@ -44,15 +45,15 @@ public class AutoRedLeftMt extends SHPBase {
 
     } // start
 
-    @Override public void loop ()
+    @Override
+    public void loop()
 
     {
         //----------------------------------------------------------------------
         //
         // State: Initialize (i.e. state_0).
         //
-        switch (v_state)
-        {
+        switch (v_state) {
             case -1:
                 dozer.setPower(0.3);
                 loops++;
@@ -69,7 +70,7 @@ public class AutoRedLeftMt extends SHPBase {
                 //
                 // Reset the encoders to ensure they are at a known good value.
                 //
-                reset_drive_encoders ();
+                reset_drive_encoders();
                 // dozer.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
                 //
@@ -87,7 +88,7 @@ public class AutoRedLeftMt extends SHPBase {
                 // be in this state and NOT the previous or the encoders will not
                 // work.  It doesn't need to be in subsequent states.
                 //
-                run_using_encoders ();
+                run_using_encoders();
                 //dozer.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
                 //
@@ -102,17 +103,16 @@ public class AutoRedLeftMt extends SHPBase {
                 // If they haven't, then the op-mode remains in this state (i.e this
                 // block will be executed the next time this method is called).
                 //
-                if (have_drive_encoders_reached (4965, 4965))
-                {
+                if (have_drive_encoders_reached(4965, 4965)) {
                     //
                     // Reset the encoders to ensure they are at a known good value.
                     //
-                    reset_drive_encoders ();
+                    reset_drive_encoders();
 
                     //
                     // Stop the motors.
                     //
-                    set_drive_power (0.0f, 0.0f);
+                    set_drive_power(0.0f, 0.0f);
 
 
                     //
@@ -126,8 +126,7 @@ public class AutoRedLeftMt extends SHPBase {
             // Wait...
             //
             case 2:
-                if (have_drive_encoders_reset ())
-                {
+                if (have_drive_encoders_reset()) {
                     v_state++;
                 }
                 break;
@@ -135,12 +134,11 @@ public class AutoRedLeftMt extends SHPBase {
             // Turn left until the encoders exceed the specified values.
             //
             case 3:
-                run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached (1000, 1000))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+                run_using_encoders();
+                set_drive_power(-1.0f, 1.0f);
+                if (have_drive_encoders_reached(1000, 1000)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
@@ -148,8 +146,7 @@ public class AutoRedLeftMt extends SHPBase {
             // Wait...
             //
             case 4:
-                if (have_drive_encoders_reset ())
-                {
+                if (have_drive_encoders_reset()) {
                     v_state++;
                 }
                 break;
@@ -157,12 +154,11 @@ public class AutoRedLeftMt extends SHPBase {
             // Turn right until the encoders exceed the specified values.
             //
             case 5:
-                run_using_encoders ();
-                set_drive_power (1.0f, 1.0f);
-                if (have_drive_encoders_reached (7400, 7400))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+                run_using_encoders();
+                set_drive_power(1.0f, 1.0f);
+                if (have_drive_encoders_reached(7400, 7400)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
@@ -170,19 +166,17 @@ public class AutoRedLeftMt extends SHPBase {
             // Wait...
             //
             case 6:
-                if (have_drive_encoders_reset ())
-                {
+                if (have_drive_encoders_reset()) {
                     v_state++;
                 }
                 break;
 
             case 7:
-                run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached (3600, 3600))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+                run_using_encoders();
+                set_drive_power(-1.0f, 1.0f);
+                if (have_drive_encoders_reached(3600, 3600)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
@@ -190,19 +184,17 @@ public class AutoRedLeftMt extends SHPBase {
             // Wait...
             //
             case 8:
-                if (have_drive_encoders_reset ())
-                {
+                if (have_drive_encoders_reset()) {
                     v_state++;
                 }
                 break;
 
             case 9:
-                run_using_encoders ();
-                set_drive_power (1.0f, 1.0f);
-                if (have_drive_encoders_reached (2850, 2850))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+                run_using_encoders();
+                set_drive_power(1.0f, 1.0f);
+                if (have_drive_encoders_reached(2850, 2850)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
@@ -210,20 +202,18 @@ public class AutoRedLeftMt extends SHPBase {
             // Wait...
             //
             case 10:
-                if (have_drive_encoders_reset ())
-                {
+                if (have_drive_encoders_reset()) {
                     v_state++;
                     //brazo.setPosition(0);
                 }
                 break;
 
             case 11:
-                run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached(500, 500))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+                run_using_encoders();
+                set_drive_power(-1.0f, 1.0f);
+                if (have_drive_encoders_reached(500, 500)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
@@ -259,12 +249,12 @@ public class AutoRedLeftMt extends SHPBase {
         //
         // Send telemetry data to the driver station.
         //
-        update_telemetry (); // Update common telemetry
+        update_telemetry(); // Update common telemetry
         telemetry.addData("18", "State: " + v_state);
         telemetry.addData("19", "BrazoPos: " + brazoPos);
     } // loop
 
-    public void do_dozer_stuff () {
+    public void do_dozer_stuff() {
         loops++;
 
         if (loops % 17 == 0)

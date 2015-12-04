@@ -19,7 +19,7 @@ public class EncoderReadOp extends SHPBase {
 
     @Override
     public void start() {
-        reset_drive_encoders ();
+        reset_drive_encoders();
     }
 
     @Override
