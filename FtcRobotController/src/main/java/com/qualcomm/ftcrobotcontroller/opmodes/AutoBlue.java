@@ -58,7 +58,7 @@ public class AutoBlue extends SHPBase {
                 dozer.setPower(0.3);
                 loops++;
                 if (loops > 300) {
-                    dozer.setPower(-0.2);
+                    dozer.setPower(-0.05);
                     //dozer.setPowerFloat();
                     v_state++;
                 }
@@ -136,7 +136,7 @@ public class AutoBlue extends SHPBase {
             case 3:
                 run_using_encoders();
                 set_drive_power(1.0f, -1.0f);
-                if (have_drive_encoders_reached(1000, 1000)) {
+                if (have_drive_encoders_reached(1250, 1250)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -156,7 +156,7 @@ public class AutoBlue extends SHPBase {
             case 5:
                 run_using_encoders();
                 set_drive_power(1.0f, 1.0f);
-                if (have_drive_encoders_reached(4900, 4900)) {
+                if (have_drive_encoders_reached(6500, 6500)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -168,13 +168,24 @@ public class AutoBlue extends SHPBase {
             case 6:
                 if (have_drive_encoders_reset()) {
                     v_state++;
+                    loops = 0;
                 }
                 break;
 
             case 7:
+                dozer.setPower(-0.3);
+                loops++;
+                if (loops > 150) {
+                    dozer.setPower(0);
+                    //dozer.setPowerFloat();
+                    v_state++;
+                }
+                break;
+
+            case 8:
                 run_using_encoders();
-                set_drive_power(-1.0f, 1.0f);
-                if (have_drive_encoders_reached(1000, 1000)) {
+                set_drive_power(1.0f, 1.0f);
+                if (have_drive_encoders_reached(1300, 1300)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -183,45 +194,82 @@ public class AutoBlue extends SHPBase {
             //
             // Wait...
             //
-            case 8:
+            case 9:
                 if (have_drive_encoders_reset()) {
                     v_state++;
+                    loops = 0;
                 }
                 break;
 
-            /*case 9:
-                run_using_encoders ();
-                set_drive_power (1.0f, 1.0f);
-                if (have_drive_encoders_reached (2850, 2850))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+            case 10:
+                run_using_encoders();
+                set_drive_power(-1.0f, 1.0f);
+                if (have_drive_encoders_reached(900, 900)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
             //
             // Wait...
             //
-            case 10:
-                if (have_drive_encoders_reset ())
-                {
+            case 11:
+                if (have_drive_encoders_reset()) {
                     v_state++;
-                    //brazo.setPosition(0);
                 }
                 break;
 
-            case 11:
-                run_using_encoders ();
-                set_drive_power (-1.0f, 1.0f);
-                if (have_drive_encoders_reached(500, 500))
-                {
-                    reset_drive_encoders ();
-                    set_drive_power (0.0f, 0.0f);
+            case 12:
+                run_using_encoders();
+                set_drive_power(1.0f, 1.0f);
+                if (have_drive_encoders_reached(300, 300)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
-                break;*/
+                break;
+            //
+            // Wait...
+            //
+            case 13:
+                if (have_drive_encoders_reset()) {
+                    v_state++;
+                }
+                break;
 
-            case 9:
+            case 14:
+                run_using_encoders();
+                set_drive_power(-1.0f, 1.0f);
+                if (have_drive_encoders_reached(300, 300)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
+                    v_state++;
+                }
+                break;
+
+            case 15:
+                if (have_drive_encoders_reset()) {
+                    v_state++;
+                }
+                break;
+
+            case 16:
+                run_using_encoders();
+                set_drive_power(-1.0f, -1.0f);
+                if (have_drive_encoders_reached(0, 0)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
+                    v_state++;
+                }
+                break;
+
+            case 17:
+                if (have_drive_encoders_reset()) {
+                    v_state++;
+                }
+                break;
+
+            case 18:
 
                 if (brazo.getPosition() < 0.1) {
                     brazo.setPosition(0);

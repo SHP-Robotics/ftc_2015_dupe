@@ -163,7 +163,7 @@ public class SoloOp extends OpMode {
 
             try {
                 zipLineGetter.setPosition(1 - zipPos);
-                leftTape.setPosition(1 - leftTapepos);
+                leftTape.setPosition(leftTapepos);
                 brazo.setPosition(Range.clip(brazoPos, 0, 1));
             } finally {
 

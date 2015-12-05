@@ -58,7 +58,7 @@ public class AutoRedLeftMt extends SHPBase {
                 dozer.setPower(0.3);
                 loops++;
                 if (loops > 300) {
-                    dozer.setPower(-0.2);
+                    dozer.setPower(-0.05);
                     //dozer.setPowerFloat();
                     v_state++;
                 }
@@ -156,7 +156,7 @@ public class AutoRedLeftMt extends SHPBase {
             case 5:
                 run_using_encoders();
                 set_drive_power(1.0f, 1.0f);
-                if (have_drive_encoders_reached(7400, 7400)) {
+                if (have_drive_encoders_reached(7450, 7450)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -174,7 +174,7 @@ public class AutoRedLeftMt extends SHPBase {
             case 7:
                 run_using_encoders();
                 set_drive_power(-1.0f, 1.0f);
-                if (have_drive_encoders_reached(3600, 3600)) {
+                if (have_drive_encoders_reached(3650, 3650)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -192,7 +192,7 @@ public class AutoRedLeftMt extends SHPBase {
             case 9:
                 run_using_encoders();
                 set_drive_power(1.0f, 1.0f);
-                if (have_drive_encoders_reached(2850, 2850)) {
+                if (have_drive_encoders_reached(3000, 3000)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
