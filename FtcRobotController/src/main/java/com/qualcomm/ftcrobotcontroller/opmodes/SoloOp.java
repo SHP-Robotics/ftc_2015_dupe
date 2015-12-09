@@ -159,7 +159,7 @@ public class SoloOp extends OpMode {
             tape2.setPower(gamepad1.dpad_up ? 1 : gamepad1.dpad_down ? -1 : 0);
 
             dozer.setPower(0.85 * gamepad1.right_stick_y);
-            output.setPower(gamepad1.dpad_left ? 0.75 : gamepad1.dpad_right ? -0.75 : 0);
+            output.setPower(gamepad1.dpad_left ? 0.55 : gamepad1.dpad_right ? -0.55 : 0);
 
             try {
                 zipLineGetter.setPosition(1 - zipPos);
