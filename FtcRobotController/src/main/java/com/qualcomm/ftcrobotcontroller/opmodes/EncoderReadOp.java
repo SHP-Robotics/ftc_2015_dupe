@@ -20,6 +20,7 @@ public class EncoderReadOp extends SHPBase {
     @Override
     public void start() {
         reset_drive_encoders();
+        light.enableLed(true);
     }
 
     @Override
@@ -29,5 +30,6 @@ public class EncoderReadOp extends SHPBase {
         telemetry.addData("Left Encoder Pos: ", a_left_encoder_count());
         telemetry.addData("Right Encoder Pos: ", a_right_encoder_count());
         telemetry.addData("Dozer Encoder Pos: ", dozer.getCurrentPosition());
+        telemetry.addData("Light Sensor Value: ", light.getLightDetected());
     }
 }

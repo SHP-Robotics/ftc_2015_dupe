@@ -42,6 +42,7 @@ public class AutoBlue extends SHPBase {
         //
         reset_drive_encoders();
         brazoPos = 1;
+        light.enableLed(true);
 
     } // start
 

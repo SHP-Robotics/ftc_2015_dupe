@@ -34,6 +34,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 /**
@@ -49,6 +50,7 @@ public class SHPBase extends OpMode {
     DcMotor leftBack, rightBack;
     DcMotor dozer, output;
     DcMotor tapeMeasure, tape2;
+    LightSensor light;
 
     DcMotorController dozerController;
 
@@ -91,6 +93,8 @@ public class SHPBase extends OpMode {
         output = hardwareMap.dcMotor.get("motor_6");
         tapeMeasure = hardwareMap.dcMotor.get("motor_7");
         tape2 = hardwareMap.dcMotor.get("motor_8");
+
+        light = hardwareMap.lightSensor.get("light_1");
 
         dozerController = hardwareMap.dcMotorController.get("mc_1");
 
