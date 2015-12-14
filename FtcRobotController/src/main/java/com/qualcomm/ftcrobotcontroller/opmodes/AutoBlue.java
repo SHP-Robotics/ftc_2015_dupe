@@ -241,7 +241,7 @@ public class AutoBlue extends SHPBase {
             case 14:
                 run_using_encoders();
                 set_drive_power(-1.0f, 1.0f);
-                if (have_drive_encoders_reached(300, 300)) {
+                if (have_drive_encoders_reached(400, 400)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -256,9 +256,8 @@ public class AutoBlue extends SHPBase {
 
             case 16:
                 run_using_encoders();
-                set_drive_power(-1.0f, -1.0f);
-                if (have_drive_encoders_reached(200, 200)) {
-                    reset_drive_encoders();
+                set_drive_power(-0.3f, -0.3f);
+                if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.35) {
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
@@ -271,6 +270,16 @@ public class AutoBlue extends SHPBase {
                 break;
 
             case 18:
+                run_using_encoders();
+                set_drive_power(0.3f, 0.3f);
+                if (have_drive_encoders_reached(1096, 1096)) {
+                    reset_drive_encoders();
+                    set_drive_power(0.0f, 0.0f);
+                    v_state++;
+                }
+                break;
+
+            case 19:
 
                 if (brazo.getPosition() < 0.1) {
                     brazo.setPosition(0);

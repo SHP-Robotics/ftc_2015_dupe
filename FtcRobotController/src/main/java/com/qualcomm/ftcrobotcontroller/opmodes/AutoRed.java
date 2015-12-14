@@ -192,27 +192,23 @@ public class AutoRed extends SHPBase {
 
             case 9:
                 run_using_encoders();
-                set_drive_power(1.0f, 1.0f);
-                if (have_drive_encoders_reached(2850, 2850)) {
-                    reset_drive_encoders();
+                set_drive_power(0.3f, 0.3f);
+                if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.35) {
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
                 }
                 break;
-            //
-            // Wait...
-            //
+
             case 10:
                 if (have_drive_encoders_reset()) {
                     v_state++;
-                    //brazo.setPosition(0);
                 }
                 break;
 
             case 11:
                 run_using_encoders();
-                set_drive_power(-1.0f, 1.0f);
-                if (have_drive_encoders_reached(200, 200)) {
+                set_drive_power(0.3f, 0.3f);
+                if (have_drive_encoders_reached(1096, 1096)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
@@ -220,6 +216,12 @@ public class AutoRed extends SHPBase {
                 break;
 
             case 12:
+                if (have_drive_encoders_reset()) {
+                    v_state++;
+                }
+                break;
+
+            case 13:
 
                 if (brazo.getPosition() < 0.1) {
                     brazo.setPosition(0);
