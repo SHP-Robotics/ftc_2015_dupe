@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 /**
  * Created by andrew on Dec 04, 2015 as part of FtcRobotController in ${PACKAGE_NAME}.
  */
-public class AutoRedLeftMt extends SHPBase {
+public class AutoRed extends SHPBase {
 
     private int v_state = -1;
     private int loops = 0;
     private int dozerEncPos = 0;
 
-    public AutoRedLeftMt() {
+    public AutoRed() {
 
     }
 
