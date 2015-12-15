@@ -259,6 +259,7 @@ public class AutoBlue extends SHPBase {
                 set_drive_power(-0.3f, -0.3f);
                 if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.35) {
                     set_drive_power(0.0f, 0.0f);
+                    reset_drive_encoders();
                     v_state++;
                 }
                 break;
