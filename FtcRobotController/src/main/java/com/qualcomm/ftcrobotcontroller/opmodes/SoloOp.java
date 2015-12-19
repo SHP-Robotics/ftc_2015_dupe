@@ -98,6 +98,7 @@ public class SoloOp extends OpMode {
         brazo = hardwareMap.servo.get("servo_2");
         leftTape = hardwareMap.servo.get("servo_3");
 
+        brazoPos = 1;
 
     }
 

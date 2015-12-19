@@ -5,13 +5,13 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 /**
  * Created by andrew on Dec 04, 2015 as part of FtcRobotController in ${PACKAGE_NAME}.
  */
-public class AutoBlue extends SHPBase {
+public class AutoBlueTwo extends SHPBase {
 
     private int v_state = -1;
     private int loops = 0;
     private int dozerEncPos = 0;
 
-    public AutoBlue() {
+    public AutoBlueTwo() {
 
     }
 
@@ -211,9 +211,7 @@ public class AutoBlue extends SHPBase {
                     v_state++;
                 }
                 break;
-            //
-            // Wait...
-            //
+
             case 11:
                 if (have_drive_encoders_reset()) {
                     v_state++;
@@ -222,16 +220,20 @@ public class AutoBlue extends SHPBase {
 
             case 12:
                 run_using_encoders();
-                set_drive_power(1.0f, 1.0f);
-                if (have_drive_encoders_reached(200, 200)) {
-                    reset_drive_encoders();
+                set_drive_power(0.2f, 0.2f);
+                if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.37) {
                     set_drive_power(0.0f, 0.0f);
+                    reset_drive_encoders();
+                    v_state = 17;
+                }
+
+                if (have_drive_encoders_reached(1900, 1900)) {
+                    reset_drive_encoders();
                     v_state++;
                 }
+
                 break;
-            //
-            // Wait...
-            //
+
             case 13:
                 if (have_drive_encoders_reset()) {
                     v_state++;
@@ -240,28 +242,18 @@ public class AutoBlue extends SHPBase {
 
             case 14:
                 run_using_encoders();
-                set_drive_power(-1.0f, 1.0f);
-                if (have_drive_encoders_reached(400, 400)) {
-                    reset_drive_encoders();
-                    set_drive_power(0.0f, 0.0f);
-                    v_state++;
-                }
-                break;
-
-            case 15:
-                if (have_drive_encoders_reset()) {
-                    v_state++;
-                }
-                break;
-
-            case 16:
-                run_using_encoders();
                 set_drive_power(-0.2f, -0.2f);
                 if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.37) {
                     set_drive_power(0.0f, 0.0f);
                     reset_drive_encoders();
-                    v_state++;
+                    v_state = 17;
                 }
+
+                if (have_drive_encoders_reached(1900, 1900)) {
+                    reset_drive_encoders();
+                    v_state = 11;
+                }
+
                 break;
 
             case 17:
