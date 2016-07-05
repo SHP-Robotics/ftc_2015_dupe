@@ -114,7 +114,7 @@ public class SoloOp extends OpMode {
     @Override
     public void loop() {
 
-        if (getRuntime() < 120) {
+        if (getRuntime() < 125) {
             float throttle = -gamepad1.left_stick_y;
             float direction = gamepad1.left_stick_x;
             float right = throttle - direction;
@@ -156,8 +156,8 @@ public class SoloOp extends OpMode {
             rightBack.setPower(right);
             leftBack.setPower(left);
 
-            tapeMeasure.setPower(gamepad1.y ? -1 : gamepad1.a ? 1 : 0);
-            tape2.setPower(gamepad1.dpad_up ? 1 : gamepad1.dpad_down ? -1 : 0);
+            tapeMeasure.setPower(gamepad1.y ? -0.5 : gamepad1.a ? 0.5 : 0);
+            tape2.setPower(gamepad1.dpad_up ? 0.5 : gamepad1.dpad_down ? -0.5 : 0);
 
             dozer.setPower(0.85 * gamepad1.right_stick_y);
             output.setPower(gamepad1.dpad_left ? 0.55 : gamepad1.dpad_right ? -0.55 : 0);

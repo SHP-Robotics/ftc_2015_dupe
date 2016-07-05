@@ -193,7 +193,7 @@ public class AutoRed extends SHPBase {
             case 9:
                 run_using_encoders();
                 set_drive_power(0.2f, 0.2f);
-                if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.37) {
+                if (light.getLightDetected() > 0.25 && light.getLightDetected() < 0.50) {
                     set_drive_power(0.0f, 0.0f);
                     reset_drive_encoders();
                     v_state++;
@@ -209,7 +209,7 @@ public class AutoRed extends SHPBase {
             case 11:
                 run_using_encoders();
                 set_drive_power(0.3f, 0.3f);
-                if (have_drive_encoders_reached(1096, 1096)) {
+                if (have_drive_encoders_reached(2000, 2000)) {
                     reset_drive_encoders();
                     set_drive_power(0.0f, 0.0f);
                     v_state++;
